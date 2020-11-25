@@ -1,5 +1,5 @@
-<h1>Support Dell Vostro 3000 series for MacOS(Mojave/ Catalina)</h1>
-<h2>1. Technical Specifications</h2>
+<h1>MacOS Catalina on Dell Vostro 3000 series using Clover</h1>
+<h2>Laptop Specs</h2>
 <table>
   <thead>
     <tr>
@@ -10,7 +10,7 @@
   <tbody>
     <tr>
       <td>Model</td>
-      <td>Dell Vostro 3568</td>
+      <td>Dell Vostro 3468</td>
     </tr>
     <tr>
       <td>Processor type</td>
@@ -21,45 +21,95 @@
       <td>Intel HD Graphics 620</td>
     </tr>
     <tr>
-      <td>Memory</td>
-      <td>8GB (DDR4 2400MHz)</td>
-    </tr>
-    <tr>
-      <td>Screen Resolution</td>
-      <td>FHD (1920x1080)</td>
-    </tr>
-    <tr>
       <td>Controller</td>
       <td>Realtek ALC3246/256 (layout-id: 11)</td>
     </tr>
     <tr>
-      <td>Wireless</td>
-      <td>
-        <ul>
-          <li>Intel Wireless-AC 3165</li>
-          <li>Bluetooth 4.0</li>
-        </ul>
-      </td>
     </tr>
   </tbody>
 </table>
-<h2>Screen Capture</h2>
-<img src="https://scontent.fsgn5-2.fna.fbcdn.net/v/t1.0-0/p180x540/105491098_1110394292678700_36823324785342154_o.jpg?_nc_cat=107&_nc_sid=8024bb&_nc_ohc=vctudF-mXsgAX_mX2uP&_nc_ht=scontent.fsgn5-2.fna&_nc_tp=6&oh=dc5d7a3721f32e69371a65dbd5221b90&oe=5F1EE219"></img>
-<h2>2. Intel Wireless-AC3165</h2>
-<h2>Follow the instruction below to fix Intel Wireless-AC3165</h2>
-<ul>
-  <li>Step 1: Download <a href="https://github.com/viincyy/Dell-Vostro-3568-Hackintosh/releases/tag/27.06">Itlwm &amp; HeliPort</a></li>
-  <li>Step 2: Extract Itlwm.kext-27.06.zip &amp; HeliPort-27.06.zip</li>
-  <li>Step 3: Copy itlwm.kext into EFI/Clover/kexts/Other</li>
-  <li>Step 4: Add HeliPort to Startup Application &#40;System Preferences/ Users &amp; Groups/ Login Items&#41;</li>
-  <li>Step 5: Reboot</li>
-</ul>
-<h2>Screen Capture</h2>
-<img src="https://scontent.fsgn5-2.fna.fbcdn.net/v/t1.0-0/p180x540/104568256_1110394322678697_75468628535693777_o.jpg?_nc_cat=107&_nc_sid=8024bb&_nc_ohc=cJ2uqZeWUvkAX81g67f&_nc_ht=scontent.fsgn5-2.fna&_nc_tp=6&oh=ad29384edb1919167ef8cc45b945e64d&oe=5F1C0D6B"></img>
-<h2>3. ComboJack/ External Microphone</h2>
-<h3>Follow the instruction below to fix external microphone</h3>
-<ul>
-  <li>Step 1: Delete CodecCommander.kext then put ComboJack/ VerbStub.kext in Clover/kexts/Other</li>
-  <li>Step 2: Run ComboJack/install.sh with root privilege</li>
-  <li>Step 3: Reboot</li>
-</ul>
+
+## Important info
+
+This project is not maintained. I'm working in a OpenCore version of this in [dell-vostro-3468-hackintosh](https://github.com/ahianf/dell-vostro-3468-hackintosh).
+
+I recommend you use this Clover version, find what is working, and what not; apply your specific tweaks and then migrate to OpenCore using my other repo as a guide.
+
+## What is working
+
+### Completely supported
+
+#### CPU
+
+XCPM power management is native supported. HWP is fully enabled as well.
+
+#### Wi-Fi & Bluetooth
+
+This laptop comes with an Intel WiFi + Bluetooth combo. I replaced mine with BCM94352Z (DM1560). Airport, Handoff are working correctly.
+
+#### Camera
+
+Camera is functioning normally.
+
+#### Battery
+
+Battery readings working.
+
+#### USB
+
+USB ports are working as expected.
+
+Use USBInject-All.kext then with Hackintool you should disable all unused ports and generate a USBPorts.kext.
+
+#### Ethernet
+
+Functioning normally.
+
+#### Display
+
+Working fine with hardware acceleration.
+
+#### Audio
+
+Driven by AppleALC with `layout-id: 11`. Working fine but headphone jack requires a workaround and is not detected by default (HDMI Audio output has not been tested).
+
+Built-in mic is working
+
+#### Sleep and Wake
+
+Working just fine
+
+### Partially working
+
+Audio and microphone works, but headphone jack requires a workaround.
+
+#### Keyboard
+
+Functioning except the AltGr key, (which I don't know how to map it correctly) and Fn Keys.
+
+#### Touchpad
+
+Functioning with multigestures, but weird behavior when clicking and moving cursor with other finger, cursor "teleports".
+
+#### Headphone jack
+
+Requires a workaround and is not detected.
+
+### Not working
+
+#### Others
+
+Internal SD card Reader
+
+### Not tested
+
+HDMI output
+
+### Additional info, quirks, findings, etc 
+
+Remove kexts asociated with BCM94352Z(DW1560) if you do not have installed one.
+
+ACPI patches _OSI->XOSI, OSID->XSID and SSDT-XOSI.aml are necessary, if not present the laptop will halt when power adapter is connected/disconnected.
+
+If patch GFX0 to iGPU is disabled, you won't be able to control brightness.
+
